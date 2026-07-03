@@ -1,0 +1,96 @@
+# Step definitions prompt template placeholder — populated in Phase 6
+Instructions:
+Generate BOTH:
+1. A Cucumber .feature file.
+2. A Java step definition class for selenium.
+- Do NOT include Page Object code.
+- Step defs must include WebDriver setup, explicit waits, and actual Selenium code.
+- Use Scenario Outline with Examples table (diversified realistic data).
+
+Context:
+DOM:
+\`\`\`html
+${domContextString}
+\`\`\`
+URL: ${pageUrl}
+
+Example:
+\`\`\`gherkin
+Feature: Login to Gmail
+
+Scenario Outline: Successful login with valid credentials
+  Given I open the login page
+  When I type "<username>" into the Username field
+  And I type "<password>" into the Password field
+  And I click the Login button
+  Then I should be logged in successfully
+
+Examples:
+  | username   | password  |
+  | "testuser" | "testpass"|
+  | "admin"    | "admin123"|
+\`\`\`
+
+\`\`\`java
+package com.gmail.stepdefs;
+
+import io.cucumber.java.en.*;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.*;
+
+public class LoginStepDefinitions {
+    private WebDriver driver;
+    private WebDriverWait wait;
+
+    @io.cucumber.java.Before
+    public void setUp() {
+        driver = new ChromeDriver();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        driver.manage().window().maximize();
+    }
+
+    @io.cucumber.java.After
+    public void tearDown() {
+        if (driver != null) driver.quit();
+    }
+
+    @Given("I open the login page")
+    public void openLoginPage() {
+        driver.get("${pageUrl}");
+    }
+
+    @When("I type {string} into the Username field")
+    public void enterUsername(String username) {
+        WebElement el = wait.until(ExpectedConditions.elementToBeClickable(By.id("username")));
+        el.sendKeys(username);
+    }
+
+    @When("I type {string} into the Password field")
+    public void enterPassword(String password) {
+        WebElement el = wait.until(ExpectedConditions.elementToBeClickable(By.id("password")));
+        el.sendKeys(password);
+    }
+
+    @When("I click the Login button")
+    public void clickLogin() {
+        driver.findElement(By.xpath("//button[contains(text(),'Login')]")).click();
+    }
+
+    @Then("I should be logged in successfully")
+    public void verifyLogin() {
+        WebElement success = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("success")));
+        assert success.isDisplayed();
+    }
+}
+\`\`\`
+
+Persona:
+- Audience: QA engineers working with Cucumber & Selenium.
+
+Output Format:
+- Gherkin in \`\`\`gherkin\`\`\` block + Java code in \`\`\`java\`\`\` block.
+
+Tone:
+- Professional, executable, structured.
+`

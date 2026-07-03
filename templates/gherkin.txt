@@ -1,0 +1,43 @@
+# Gherkin prompt template placeholder — populated in Phase 6
+Instructions:
+- Generate ONLY a Cucumber (.feature) file.
+- Use Scenario Outline with Examples table.
+- Make sure every step is relevant to the provided DOM.
+- Do not combine multiple actions into one step.
+- Use diversified realistic dataset (names, addresses, pin codes, mobile numbers).
+- Use dropdown values only from provided DOM.
+- Generate multiple scenarios if applicable.
+
+
+
+Example:
+\`\`\`gherkin
+Feature: Login to Gmail
+
+Scenario Outline: Successful login with valid credentials
+  Given I open the login page
+  When I type "<username>" into the Username field
+  And I type "<password>" into the Password field
+  And I click the Login button
+  Then I should be logged in successfully
+
+Examples:
+  | username   | password  |
+  | "testuser" | "testpass"|
+  | "admin"    | "admin123"|
+\`\`\`
+
+Persona:
+- Audience: BDD testers who only need feature files.
+
+Output Format:
+- Only valid Gherkin in a \`\`\`gherkin\`\`\` block.
+
+Tone:
+- Clear, structured, executable.
+
+Context:
+DOM:
+\`\`\`html
+${domContextString}\`\`\`
+`

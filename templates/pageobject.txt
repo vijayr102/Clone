@@ -1,0 +1,14 @@
+# Page object prompt template placeholder — populated in Phase 6
+Instructions:
+Generate a Selenium Java Page Object Model class.
+- Add proper JavaDoc
+- Use FindBy annotations
+- Include meaningful method names
+- Add proper waits
+- Handle errors gracefully
+
+Context:
+URL: ${pageUrl}
+DOM: ${domContextString}
+
+Output Format: Only Java code in a \`\`\`java\`\`\` block`

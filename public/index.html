@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clone</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="header">
+      <h1>Clone</h1>
+    </header>
+    <main class="main">
+      <!-- Phase 2+: Session controls -->
+      <section id="session-panel" class="panel">
+        <h2>Session</h2>
+        <div class="form-row">
+          <input type="text" id="target-url" placeholder="https://example.com" />
+          <button id="btn-start">Start Recording</button>
+          <button id="btn-stop" disabled>Stop</button>
+        </div>
+      </section>
+
+      <!-- Phase 5+: Action timeline -->
+      <section id="timeline-panel" class="panel">
+        <h2>Recorded Actions</h2>
+        <table id="action-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Action</th>
+              <th>Value</th>
+              <th>URL</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="action-list"></tbody>
+        </table>
+      </section>
+
+      <!-- Phase 6+: Generation controls -->
+      <section id="generate-panel" class="panel">
+        <h2>Generate Code</h2>
+        <div class="form-row">
+          <label><input type="checkbox" id="chk-gherkin" checked /> Gherkin</label>
+          <label><input type="checkbox" id="chk-stepdefs" checked /> Step Definitions</label>
+          <label><input type="checkbox" id="chk-pageobjects" checked /> Page Objects</label>
+          <button id="btn-generate">Generate</button>
+        </div>
+        <div class="form-row">
+          <input type="text" id="llm-endpoint" placeholder="LLM Endpoint URL" />
+          <input type="text" id="llm-model" placeholder="Model Identifier" />
+          <input type="password" id="llm-key" placeholder="Bearer API Key" />
+        </div>
+      </section>
+
+      <!-- Phase 7+: Output panels -->
+      <section id="output-panel" class="panel">
+        <h2>Output</h2>
+        <div class="output-grid">
+          <div class="output-box">
+            <div class="output-header">
+              <span>Gherkin</span>
+              <button class="btn-copy" data-target="output-gherkin">Copy</button>
+            </div>
+            <pre><code id="output-gherkin" class="language-gherkin"></code></pre>
+          </div>
+          <div class="output-box">
+            <div class="output-header">
+              <span>Step Definitions</span>
+              <button class="btn-copy" data-target="output-stepdefs">Copy</button>
+            </div>
+            <pre><code id="output-stepdefs" class="language-typescript"></code></pre>
+          </div>
+          <div class="output-box">
+            <div class="output-header">
+              <span>Page Objects</span>
+              <button class="btn-copy" data-target="output-pageobjects">Copy</button>
+            </div>
+            <pre><code id="output-pageobjects" class="language-typescript"></code></pre>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" data-manual></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-gherkin.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
