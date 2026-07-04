@@ -30,9 +30,21 @@ export async function eventsRoute(app: FastifyInstance): Promise<void> {
         if (!res.writableEnded) res.write(': heartbeat\n\n');
       }, 15_000);
 
+      // When the Playwright browser is closed by the user, notify the client
+      const stopListener = (): void => {
+        res.write('event: stopped\ndata: {}\n\n');
+        clearInterval(heartbeat);
+        recorderEmitter.off('action', listener);
+        recorderEmitter.off('sessionStopped', stopListener);
+        if (!res.writableEnded) res.end();
+      };
+
+      recorderEmitter.on('sessionStopped', stopListener);
+
       req.raw.on('close', () => {
         clearInterval(heartbeat);
         recorderEmitter.off('action', listener);
+        recorderEmitter.off('sessionStopped', stopListener);
       });
 
       // Hold the handler open until the client disconnects

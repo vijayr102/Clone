@@ -83,6 +83,15 @@ export async function startSession(
   await page.goto(url, { waitUntil: 'domcontentloaded' });
 
   activeSession = { browser, context, page };
+
+  // Auto-stop when the user closes the Playwright browser window manually
+  browser.on('disconnected', () => {
+    if (!activeSession) return; // already stopped via API
+    activeSession = null;
+    logger.info('browser closed by user — session auto-stopped');
+    recorderEmitter.emit('sessionStopped');
+  });
+
   logger.info({ url }, 'session started');
 }
 

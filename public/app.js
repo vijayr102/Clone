@@ -136,6 +136,13 @@ function connectEventSource() {
     eventSource = null;
     timelinePanel.classList.remove('recording');
   };
+
+  // Server signals that the recording browser was closed by the user
+  eventSource.addEventListener('stopped', () => {
+    disconnectEventSource();
+    btnStart.disabled = false;
+    btnStop.disabled = true;
+  });
 }
 
 function disconnectEventSource() {
@@ -215,7 +222,12 @@ function flushSection(label, content) {
   if (!boxId || !content.trim()) return;
   const el = document.getElementById(boxId);
   if (!el) return;
-  el.textContent = content.trim();
+  // Strip any surrounding code-fence markers the LLM may include
+  // e.g. ```gherkin\n...\n``` or ```java\n...\n```
+  const stripped = content.trim()
+    .replace(/^```[^\n]*\n?/, '')
+    .replace(/\n?```\s*$/, '');
+  el.textContent = stripped;
   if (typeof Prism !== 'undefined') {
     Prism.highlightElement(el);
   }
